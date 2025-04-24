@@ -1,6 +1,8 @@
 package com.ilseong.game.repository
 
 import jakarta.persistence.Entity
+import jakarta.persistence.GeneratedValue
+import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import org.hibernate.annotations.CreationTimestamp
 import java.time.LocalDateTime
@@ -8,14 +10,15 @@ import java.time.LocalDateTime
 @Entity
 data class Game(
     @Id
-    val id: Long?,
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    val id: Long? = null,
 
     val leftPlayer: String,
 
     val rightPlayer: String,
 
-    val winner: String?,
+    val winner: String? = null,
 
     @CreationTimestamp
-    val createdAt: LocalDateTime?,
+    val createdAt: LocalDateTime? = null,
 )
