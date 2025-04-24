@@ -1,0 +1,7 @@
+###
+POST http://localhost:8080/scores
+Content-Type: application/json
+
+{
+  "winner": "player_b"
+}
