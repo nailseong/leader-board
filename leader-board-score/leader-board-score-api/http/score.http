@@ -1,3 +1,7 @@
 ###
 POST http://localhost:8080/scores?winner=player_d
 Content-Type: application/json
+
+###
+GET http://localhost:8080/rankings?size=5
+Content-Type: application/json

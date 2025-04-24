@@ -11,4 +11,9 @@ class ScoreService(
     fun increaseScore(winner: String) {
         leaderBoardRepository.increaseScore(winner)
     }
+
+    fun getTopRankings(size: Long): RankingResponse {
+        val rankings = leaderBoardRepository.getTopRankings(size)
+        return RankingResponse.from(rankings)
+    }
 }

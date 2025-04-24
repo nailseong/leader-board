@@ -16,4 +16,16 @@ class LeaderBoardRepository(
         redisTemplate.opsForZSet()
             .incrementScore(LEADER_BOARD_KEY, winner, 1.0)
     }
+
+    fun getTopRankings(size: Long): List<PlayerRanking> {
+        return redisTemplate.opsForZSet()
+            .reverseRangeWithScores(LEADER_BOARD_KEY, 0, size - 1)
+            ?.mapIndexed { index, typedTuple ->
+                PlayerRanking(
+                    ranking = index + 1,
+                    player = typedTuple.value.toString(),
+                    score = typedTuple.score?.toInt() ?: 0,
+                )
+            } ?: emptyList()
+    }
 }
