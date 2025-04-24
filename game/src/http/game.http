@@ -1,0 +1,8 @@
+### play game
+POST http://localhost:8080/games
+Content-Type: application/json
+
+{
+  "leftPlayer": "player_a",
+  "rightPlayer": "player_b"
+}
