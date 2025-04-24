@@ -1,9 +1,8 @@
 package com.ilseong.score.controller
 
-import com.ilseong.score.message.GameEndEvent
 import com.ilseong.score.service.ScoreService
 import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -12,7 +11,7 @@ class ScoreController(
 ) {
 
     @PostMapping("/scores")
-    fun increaseScore(@RequestBody request: GameEndEvent) {
-        scoreService.increaseScore(request.winner)
+    fun increaseScore(@RequestParam winner: String) {
+        scoreService.increaseScore(winner)
     }
 }

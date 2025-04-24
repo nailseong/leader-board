@@ -4,8 +4,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class ScoreApplication
+class ScoreEventListenerApplication
 
 fun main(args: Array<String>) {
-    runApplication<ScoreApplication>(*args)
+    runApplication<ScoreEventListenerApplication>(*args)
 }
