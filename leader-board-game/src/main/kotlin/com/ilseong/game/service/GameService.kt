@@ -13,6 +13,10 @@ class GameService(
     private val eventProducer: GameEventProducer,
 ) {
 
+    companion object {
+        private const val DRAW = "DRAW"
+    }
+
     @Transactional
     fun playGame(request: PlayRequest): PlayResponse {
         val winner = choiceWinner(request)
@@ -20,7 +24,8 @@ class GameService(
             Game(
                 leftPlayer = request.leftPlayer,
                 rightPlayer = request.rightPlayer,
-                winner = winner,
+                winner = winner.takeIf { it != DRAW },
+                isDraw = winner == DRAW
             )
         )
 
@@ -34,6 +39,6 @@ class GameService(
     }
 
     private fun choiceWinner(request: PlayRequest): String {
-        return listOf(request.leftPlayer, request.rightPlayer).random()
+        return listOf(request.leftPlayer, request.rightPlayer, DRAW).random()
     }
 }

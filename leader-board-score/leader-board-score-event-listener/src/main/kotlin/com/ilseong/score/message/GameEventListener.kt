@@ -35,7 +35,7 @@ class GameEventListener(
         val event = objectMapper.readValue(eventString, GameEndEvent::class.java)
         logger.info { "Received GameEndEvent: $event, key: $key" }
 
-        leaderBoardRepository.increaseScore(event.winner, event.date)
+        leaderBoardRepository.increaseScore(event.winner, event.date) // todo : elo rating
 
         ack.acknowledge()
     }

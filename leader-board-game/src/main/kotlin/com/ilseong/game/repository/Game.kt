@@ -19,6 +19,8 @@ data class Game(
 
     val winner: String? = null,
 
+    val isDraw: Boolean,
+
     @CreationTimestamp
     val createdAt: LocalDateTime? = null,
 )
