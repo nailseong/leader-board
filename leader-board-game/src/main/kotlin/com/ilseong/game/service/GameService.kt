@@ -5,6 +5,7 @@ import com.ilseong.game.repository.Game
 import com.ilseong.game.repository.GameRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.LocalDateTime
 
 @Service
 class GameService(
@@ -27,7 +28,7 @@ class GameService(
         checkNotNull(gameId) { "game id is null" }
 
         val response = PlayResponse(gameId, winner)
-        eventProducer.sendGameEndEvent(response)
+        eventProducer.sendGameEndEvent(response, game.createdAt ?: LocalDateTime.now())
 
         return response
     }
