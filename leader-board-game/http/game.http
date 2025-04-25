@@ -1,5 +1,5 @@
 ### play game
-POST http://localhost:8080/games
+POST http://localhost:8082/games
 Content-Type: application/json
 
 {
