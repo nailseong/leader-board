@@ -19,7 +19,13 @@ class GameEventProducer(
     }
 
     fun sendGameEndEvent(playResponse: PlayResponse, date: LocalDateTime): CompletableFuture<SendResult<String, Any>> {
-        val event = GameEndEvent(playResponse.winner, date)
+        val event = GameEndEvent(
+            playResponse.leftPlayer,
+            playResponse.rightPlayer,
+            playResponse.winner,
+            playResponse.isDraw,
+            date
+        )
         return kafkaTemplate.send(TOPIC, playResponse.gameId.toString(), event)
             .whenComplete { result, ex ->
                 if (ex == null) {

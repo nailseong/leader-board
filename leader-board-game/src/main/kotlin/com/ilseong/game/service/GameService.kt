@@ -32,7 +32,7 @@ class GameService(
         val gameId = game.id
         checkNotNull(gameId) { "game id is null" }
 
-        val response = PlayResponse(gameId, winner)
+        val response = PlayResponse(gameId, game.leftPlayer, game.rightPlayer, game.winner, game.isDraw)
         eventProducer.sendGameEndEvent(response, game.createdAt ?: LocalDateTime.now())
 
         return response
