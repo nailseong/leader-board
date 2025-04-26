@@ -9,10 +9,6 @@ class ScoreService(
     private val leaderBoardRepository: LeaderBoardRepository
 ) {
 
-    fun increaseScore(winner: String, date: LocalDateTime) {
-        leaderBoardRepository.increaseScore(winner, date)
-    }
-
     fun getTopRankings(size: Long, date: LocalDateTime): RankingResponse {
         val rankings = leaderBoardRepository.getTopRankings(size, date)
         return RankingResponse.from(rankings)

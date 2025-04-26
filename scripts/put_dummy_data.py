@@ -10,12 +10,11 @@ NUM_GAMES = NUM_PLAYERS * 10 * 30  # 게임 진행 횟수
 NUM_WORKERS = 10  # 동시 요청을 위한 워커 수
 
 # API 엔드포인트
-GAME_API_URL = "http://localhost:8082/games"
-SCORE_API_URL = "http://localhost:8080/scores"
+GAME_API_URL =  "http://localhost:8082/games"
 RANKING_API_URL = "http://localhost:8080/rankings"
 
 def play_game(player1: str, player2: str) -> None:
-    """게임을 진행하고 결과를 저장합니다."""
+    """게임을 진행합니다."""
     try:
         # 게임 진행
         game_response = requests.post(
@@ -23,13 +22,6 @@ def play_game(player1: str, player2: str) -> None:
             json={"leftPlayer": player1, "rightPlayer": player2}
         )
         game_response.raise_for_status()
-        
-        # 승자 저장
-        winner = random.choice([player1, player2])  # 임시로 랜덤 선택
-        score_response = requests.post(
-            f"{SCORE_API_URL}?winner={winner}"
-        )
-        score_response.raise_for_status()
     except Exception as e:
         print(f"게임 진행 중 오류 발생: {e}")
 
