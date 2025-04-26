@@ -1,3 +1,11 @@
 ###
 GET http://localhost:8080/rankings?size=5
 Content-Type: application/json
+
+###
+PUT http://localhost:8080/scores
+Content-Type: application/json
+
+{
+  "player": "player_d"
+}

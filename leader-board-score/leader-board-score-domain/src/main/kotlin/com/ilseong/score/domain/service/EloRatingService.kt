@@ -18,15 +18,19 @@ class EloRatingService(
         private const val START_RATING = 1200
     }
 
+    fun initEloRating(player: String, date: LocalDateTime) {
+        leaderBoardRepository.setScore(player, START_RATING, date)
+    }
+
     fun updateEloRating(leftPlayer: String, rightPlayer: String, winner: String?, date: LocalDateTime) {
-        val leftPlayerRating = leaderBoardRepository.findScore(leftPlayer, date)
-        val rightPlayerRating = leaderBoardRepository.findScore(rightPlayer, date)
+        val leftPlayerRating = getCurrentRating(leftPlayer, date)
+        val rightPlayerRating = getCurrentRating(rightPlayer, date)
 
         val eloCalculateRequest = EloCalculateRequest(
             leftPlayer = leftPlayer,
-            leftPlayerRating = leftPlayerRating ?: START_RATING,
+            leftPlayerRating = leftPlayerRating,
             rightPlayer = rightPlayer,
-            rightPlayerRating = rightPlayerRating ?: START_RATING,
+            rightPlayerRating = rightPlayerRating,
             winner.takeIf { it != null },
             date
         )
@@ -38,5 +42,11 @@ class EloRatingService(
 
         leaderBoardRepository.updateScore(rightPlayer, eloCalculateResponse.rightPlayerDiff(), date)
         logger.info { "Rating changed. $rightPlayer: $rightPlayerRating -> ${eloCalculateResponse.rightPlayerNewRating}" }
+    }
+
+    private fun getCurrentRating(player: String, date: LocalDateTime): Int {
+        val playerRating = leaderBoardRepository.findScore(player, date)
+        checkNotNull(playerRating) { "$player has no rating. init rating. rating init must be done first" }
+        return playerRating
     }
 }

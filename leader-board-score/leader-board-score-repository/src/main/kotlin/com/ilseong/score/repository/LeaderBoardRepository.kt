@@ -1,5 +1,6 @@
 package com.ilseong.score.repository
 
+import mu.KotlinLogging
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.stereotype.Component
 import java.time.LocalDateTime
@@ -13,17 +14,23 @@ class LeaderBoardRepository(
     companion object {
         private const val LEADER_BOARD_KEY_PREFIX = "LEADER_BOARD_"
         private val FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM")
+        private val logger = KotlinLogging.logger {}
 
         private fun key(date: LocalDateTime) = LEADER_BOARD_KEY_PREFIX + date.format(FORMATTER)
+    }
+
+    fun setScore(player: String, initialRating: Int, date: LocalDateTime) {
+        redisTemplate.opsForZSet()
+            .add(key(date), player, initialRating.toDouble())
     }
 
     fun findScore(player: String, date: LocalDateTime): Int? {
         return redisTemplate.opsForZSet().score(key(date), player)?.toInt()
     }
 
-    fun updateScore(winner: String, scoreDiff: Int, date: LocalDateTime) {
+    fun updateScore(player: String, scoreDiff: Int, date: LocalDateTime) {
         redisTemplate.opsForZSet()
-            .incrementScore(key(date), winner, scoreDiff.toDouble())
+            .incrementScore(key(date), player, scoreDiff.toDouble())
     }
 
     fun getTopRankings(size: Long, date: LocalDateTime): List<PlayerRanking> {
