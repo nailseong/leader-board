@@ -5,4 +5,12 @@ data class EloCalculateResponse(
     val leftPlayerNewRating: Int,
     val rightPlayerOldRating: Int,
     val rightPlayerNewRating: Int,
-)
+) {
+    fun leftPlayerDiff(): Int {
+        return leftPlayerOldRating - leftPlayerNewRating
+    }
+
+    fun rightPlayerDiff(): Int {
+        return rightPlayerOldRating - rightPlayerNewRating
+    }
+}

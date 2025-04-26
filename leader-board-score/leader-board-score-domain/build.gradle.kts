@@ -26,6 +26,8 @@ repositories {
 }
 
 dependencies {
+    implementation(project(":leader-board-score:leader-board-score-repository"))
+
     // ???
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.jetbrains.kotlin:kotlin-reflect")

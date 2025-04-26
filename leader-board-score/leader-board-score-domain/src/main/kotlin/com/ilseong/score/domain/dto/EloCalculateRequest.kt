@@ -1,11 +1,14 @@
 package com.ilseong.score.domain.dto
 
+import java.time.LocalDateTime
+
 data class EloCalculateRequest(
     val leftPlayer: String,
     val leftPlayerRating: Int,
     val rightPlayer: String,
     val rightPlayerRating: Int,
-    val winner: String = "",
+    val winner: String?,
+    val date: LocalDateTime,
 ) {
     fun leftPlayerGameResult(): Double {
         return when {
@@ -24,6 +27,6 @@ data class EloCalculateRequest(
     }
 
     private fun isDraw(): Boolean {
-        return winner == ""
+        return winner == null
     }
 }

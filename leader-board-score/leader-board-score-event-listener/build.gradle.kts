@@ -26,8 +26,7 @@ repositories {
 }
 
 dependencies {
-
-    implementation(project(":leader-board-score:leader-board-score-repository"))
+    implementation(project(":leader-board-score:leader-board-score-domain"))
 
     // ???
     implementation("org.springframework.boot:spring-boot-starter-web")
