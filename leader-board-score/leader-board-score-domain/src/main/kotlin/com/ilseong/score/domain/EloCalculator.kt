@@ -24,11 +24,13 @@ class EloCalculator {
      */
     fun updateRatings(request: EloCalculateRequest): EloCalculateResponse {
         return EloCalculateResponse(
+            leftPlayerOldRating = request.leftPlayerRating,
             leftPlayerNewRating = calculateNewRating(
                 playerRating = request.leftPlayerRating,
                 opponentPlayerRating = request.rightPlayerRating,
                 request.leftPlayerGameResult()
             ),
+            rightPlayerOldRating = request.rightPlayerRating,
             rightPlayerNewRating = calculateNewRating(
                 playerRating = request.rightPlayerRating,
                 opponentPlayerRating = request.leftPlayerRating,
