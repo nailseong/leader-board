@@ -5,13 +5,25 @@ import time
 from typing import List
 
 # 1. 테스트 파라미터 설정
-NUM_PLAYERS = 500  # 플레이어 수
+NUM_PLAYERS = 10  # 플레이어 수
 NUM_GAMES = NUM_PLAYERS * 10 * 30  # 게임 진행 횟수
 NUM_WORKERS = 10  # 동시 요청을 위한 워커 수
 
 # API 엔드포인트
 GAME_API_URL =  "http://localhost:8082/games"
 RANKING_API_URL = "http://localhost:8080/rankings"
+SCORE_API_URL = "http://localhost:8080/scores"
+
+def initialize_player_score(player: str) -> None:
+    """플레이어의 점수를 초기화합니다."""
+    try:
+        response = requests.put(
+            SCORE_API_URL,
+            json={"player": player}
+        )
+        response.raise_for_status()
+    except Exception as e:
+        print(f"플레이어 {player} 점수 초기화 중 오류 발생: {e}")
 
 def play_game(player1: str, player2: str) -> None:
     """게임을 진행합니다."""
@@ -41,6 +53,22 @@ def main():
     
     print(f"테스트 시작: {NUM_PLAYERS}명의 플레이어, {NUM_GAMES}게임")
     start_time = time.time()
+    
+    # 모든 플레이어의 점수 초기화
+    print("플레이어 점수 초기화 중...")
+    with concurrent.futures.ThreadPoolExecutor(max_workers=NUM_WORKERS) as executor:
+        futures = [executor.submit(initialize_player_score, player) for player in players]
+        concurrent.futures.wait(futures)
+    print("점수 초기화 완료")
+    
+    # 초기화 후 랭킹 확인
+    print("\n초기화 후 랭킹 확인:")
+    rankings = get_rankings()
+    for rank_info in rankings['rankingInfos']:
+        print(f"{rank_info['rank']}. {rank_info['player']}: {rank_info['score']}점")
+    
+    # 사용자 확인 대기
+    input("\n초기화가 완료되었습니다. 계속하려면 Enter를 누르세요...")
     
     # 게임 진행
     with concurrent.futures.ThreadPoolExecutor(max_workers=NUM_WORKERS) as executor:
