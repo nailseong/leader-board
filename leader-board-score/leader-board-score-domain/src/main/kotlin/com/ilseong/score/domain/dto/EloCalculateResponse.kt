@@ -7,10 +7,10 @@ data class EloCalculateResponse(
     val rightPlayerNewRating: Int,
 ) {
     fun leftPlayerDiff(): Int {
-        return leftPlayerOldRating - leftPlayerNewRating
+        return leftPlayerNewRating - leftPlayerOldRating
     }
 
     fun rightPlayerDiff(): Int {
-        return rightPlayerOldRating - rightPlayerNewRating
+        return rightPlayerNewRating - rightPlayerOldRating
     }
 }

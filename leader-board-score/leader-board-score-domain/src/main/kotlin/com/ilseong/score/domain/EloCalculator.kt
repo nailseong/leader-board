@@ -6,12 +6,13 @@ import org.springframework.stereotype.Component
 import kotlin.math.pow
 import kotlin.math.roundToInt
 
+
 @Component
 class EloCalculator {
 
     companion object {
         private const val K_FACTOR = 32.0
-        const val DEFAULT_INITIAL_RATING = 1200.0
+        private const val MIN_RATING = 100.0
     }
 
     /**
@@ -53,7 +54,8 @@ class EloCalculator {
         actualScore: Double,
     ): Int {
         val expectedScore = calculateExpectedScore(playerRating, opponentPlayerRating)
-        return (playerRating + K_FACTOR * (actualScore - expectedScore)).roundToInt()
+        val newRating = playerRating + (K_FACTOR * (actualScore - expectedScore))
+        return maxOf(newRating, MIN_RATING).roundToInt()
     }
 
     /**
