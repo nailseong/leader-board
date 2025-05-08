@@ -4,9 +4,9 @@ import {SharedArray} from 'k6/data';
 import {randomIntBetween} from 'https://jslib.k6.io/k6-utils/1.2.0/index.js';
 
 // 테스트 파라미터 설정
-const NUM_PLAYERS = 10;
-const TEST_DURATION = '60s';
-const GAMES_PER_SECOND = 1000;
+const NUM_PLAYERS = 50;
+const TEST_DURATION = '180s';
+const GAMES_PER_SECOND = 5000;
 
 // API 엔드포인트
 const GAME_API_URL = "http://localhost:8082/games";
@@ -27,8 +27,8 @@ export const options = {
             rate: GAMES_PER_SECOND,
             timeUnit: '1s',
             duration: TEST_DURATION,
-            preAllocatedVUs: 50,
-            maxVUs: 1000,
+            preAllocatedVUs: 1000,
+            maxVUs: 2000,
             exec: 'playGame',
             startTime: '5s',
         },
@@ -100,9 +100,6 @@ export function setup() {
         } else {
             console.warn(`플레이어 ${player} 점수 초기화 실패: ${response.status}, 응답: ${response.body}`);
         }
-
-        // API 서버 과부하 방지를 위한 짧은 휴식
-        sleep(0.2);
     }
 
     console.log(`모든 플레이어 점수 초기화 완료`);

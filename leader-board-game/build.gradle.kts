@@ -11,4 +11,8 @@ dependencies {
     // kafka
     implementation("org.springframework.kafka:spring-kafka")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+
+    // monitoring
+    implementation("org.springframework.boot:spring-boot-starter-actuator:3.4.4")
+    runtimeOnly("io.micrometer:micrometer-registry-prometheus:1.14.6")
 }

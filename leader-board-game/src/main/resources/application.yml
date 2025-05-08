@@ -14,3 +14,14 @@ spring:
         dialect: org.hibernate.dialect.MySQL8Dialect
 server:
   port: 8082
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+
