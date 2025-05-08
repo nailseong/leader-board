@@ -1,6 +1,6 @@
 # leader board
 
-![map](https://github-production-user-asset-6210df.s3.amazonaws.com/68512686/437515976-a93fa6a2-e484-4aea-b270-d765238243e2.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20250425%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250425T154956Z&X-Amz-Expires=300&X-Amz-Signature=5408e0529ba1c40c0bd69c228c348460fde53a2fe47c5528bc044c4b4bc13be0&X-Amz-SignedHeaders=host)
+![v1.png](img/design/v1.png)
 
 ## k factor
 
@@ -18,3 +18,12 @@
 | player_6  | 1176               | 1200             | 1290                     | 1401                      | 1484                      |
 | player_4  | 1149               | 1174             | 1271                     | 1385                      | 1467                      |
 | player_3  | 1144               | 1168             | 1258                     | 1370                      | 1456                      |
+
+## todo
+
+- [ ] game event listener 분리
+    - [ ] db 부하가 심하지 않도록 배압조절
+    - [ ] 성능테스트 다시 해보기
+- [ ] 신규모듈 : 알림?
+    - db를 더 하드하게 써야하는 요구사항
+    - 코루틴 효율이 좋은 요구사항
