@@ -4,14 +4,6 @@ spring:
     username: user
     password: 1234
     driver-class-name: com.mysql.cj.jdbc.Driver
-  jpa:
-    hibernate:
-      ddl-auto: create
-    show-sql: true
-    properties:
-      hibernate:
-        format_sql: true
-        dialect: org.hibernate.dialect.MySQL8Dialect
 server:
   port: 8082
 
@@ -20,8 +12,6 @@ server:
 spring:
   profiles:
     active: performance-test
-  jpa:
-    show-sql: false
 
 
 management:
@@ -33,6 +23,6 @@ management:
     metrics:
       export:
         enabled: true
-logging:
-  level:
-    root: error
+#logging:
+#  level:
+#    root: error
