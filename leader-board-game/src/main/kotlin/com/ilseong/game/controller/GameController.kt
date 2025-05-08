@@ -13,7 +13,7 @@ class GameController(
 ) {
 
     @PostMapping("/games")
-    fun play(@RequestBody request: PlayRequest): PlayResponse {
+    suspend fun play(@RequestBody request: PlayRequest): PlayResponse {
         return gameService.playGame(request)
     }
 }

@@ -18,7 +18,7 @@ class GameService(
     }
 
     @Transactional
-    fun playGame(request: PlayRequest): PlayResponse {
+    suspend fun playGame(request: PlayRequest): PlayResponse {
         val winner = choiceWinner(request)
         val game = gameRepository.save(
             Game(

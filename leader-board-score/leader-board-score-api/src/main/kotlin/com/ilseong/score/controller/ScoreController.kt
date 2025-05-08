@@ -12,7 +12,7 @@ class ScoreController(
 ) {
 
     @GetMapping("/rankings")
-    fun getTopRankings(
+    suspend fun getTopRankings(
         @RequestParam(required = false) size: Long = 10,
         @RequestParam(required = false) date: LocalDateTime = LocalDateTime.now()
     ): RankingResponse {
@@ -20,7 +20,7 @@ class ScoreController(
     }
 
     @PutMapping("/scores")
-    fun initScore(@RequestBody request: InitScoreRequest) {
+    suspend fun initScore(@RequestBody request: InitScoreRequest) {
         scoreService.initScore(request)
     }
 }
