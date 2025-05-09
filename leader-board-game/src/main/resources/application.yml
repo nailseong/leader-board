@@ -6,6 +6,9 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
 server:
   port: 8082
+exposed:
+  drop:
+    create: false
 
 ---
 
@@ -13,6 +16,9 @@ spring:
   profiles:
     active: performance-test
 
+exposed:
+  drop:
+    create: true
 
 management:
   endpoints:
