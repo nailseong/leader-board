@@ -14,7 +14,7 @@ class GameEventProducer(
 ) {
 
     companion object {
-        private const val TOPIC: String = "game-record-event"
+        const val GAME_RECORD_EVENT_TOPIC: String = "leader-board_game_result-event"
         private val logger = KotlinLogging.logger {}
     }
 
@@ -26,7 +26,7 @@ class GameEventProducer(
             playResponse.isDraw,
             date
         )
-        return kafkaTemplate.send(TOPIC, playResponse.gameId.toString(), event)
+        return kafkaTemplate.send(GAME_RECORD_EVENT_TOPIC, playResponse.gameId, event)
             .whenComplete { result, ex ->
                 if (ex == null) {
                     logger.info { "이벤트 전송 성공: ${result.recordMetadata.topic()}-${result.recordMetadata.partition()}, 오프셋: ${result.recordMetadata.offset()}" }

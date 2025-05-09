@@ -1,41 +1,52 @@
-package com.ilseong.score.message
+package com.ilseong.game.message
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.ilseong.score.domain.service.EloRatingService
+import com.ilseong.game.repository.Games
 import mu.KotlinLogging
+import org.jetbrains.exposed.sql.insert
+import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.springframework.kafka.annotation.KafkaListener
 import org.springframework.kafka.support.Acknowledgment
 import org.springframework.kafka.support.KafkaHeaders
 import org.springframework.messaging.handler.annotation.Header
 import org.springframework.messaging.handler.annotation.Payload
 import org.springframework.stereotype.Service
+import java.util.*
 
 @Service
-class GameEventListener(
+class GameResultEventListener(
     private val objectMapper: ObjectMapper,
-    private val eloRatingService: EloRatingService,
 ) {
 
     companion object {
-        private const val TOPIC_GAME_RECORD_EVENT: String = "leader-board_game_result-event"
-        private const val GROUP_ID_GAME_RECORD_EVENT = "leader-board_score"
+        private const val GROUP_ID_GAME_RECORD_EVENT = "leader-board_game"
         private val logger = KotlinLogging.logger {}
     }
 
     @KafkaListener(
-        topics = [TOPIC_GAME_RECORD_EVENT],
+        topics = [GameEventProducer.GAME_RECORD_EVENT_TOPIC],
         groupId = GROUP_ID_GAME_RECORD_EVENT,
         containerFactory = "kafkaListenerContainerFactory",
     )
-    fun listen(
+    suspend fun listen(
         @Header(KafkaHeaders.RECEIVED_KEY) gameId: String,
         @Payload eventString: String,
         ack: Acknowledgment
     ) {
         val event = objectMapper.readValue(eventString, GameEndEvent::class.java)
-        logger.info { "Received GameEndEvent: $event, key: $gameId" }
+        UUID.fromString(gameId)
 
-        eloRatingService.updateEloRating(event.leftPlayer, event.rightPlayer, event.winner, event.date)
+        newSuspendedTransaction {
+            Games.insert {
+                it[id] = UUID.fromString(gameId)
+                it[leftPlayer] = event.leftPlayer
+                it[rightPlayer] = event.rightPlayer
+                it[winner] = event.winner
+                it[isDraw] = event.isDraw
+            }
+        }
+
+        logger.info { "Received GameEndEvent: $event, key: $gameId" }
 
         ack.acknowledge()
     }
